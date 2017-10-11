@@ -4,8 +4,8 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 
 // connect config and models files
-const {PORT, DATABASE_URL} = require('/config')
-const {BlogPost} = require('/models')
+const {PORT, DATABASE_URL} = require('./config')
+const {BlogPost} = require('./models')
 
 // use express for app
 const app = express()
@@ -15,7 +15,7 @@ app.use(morgan('common'))
 app.use(bodyParser.json())
 
 // make mongoose use built in es6 promises
-mongoose.Promise = global.promises
+mongoose.Promise = global.Promise
 
 // GET requests to /posts
 // Return all posts apiRepr json
