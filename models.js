@@ -11,7 +11,7 @@ const postSchema = mongoose.Schema({
 })
 
 // add virtual for nameString so it can be returned in apiRepr
-// .trim() removes whitespace from both ends of String
+// .trim() removes whitespace from both ends of string
 postSchema.virtual('nameString').get(function () {
   return `${this.author.firstName} ${this.author.lastName}`.trim()
 })
@@ -27,7 +27,7 @@ postSchema.methods.apiRepr = function () {
 }
 
 // create mongoose model for BlogPost
-const BlogPost = mongoose.model('BlogPost', postSchema)
+const Post = mongoose.model('Post', postSchema)
 
 // export BlogPost
-module.exports = {BlogPost}
+module.exports = {Post}

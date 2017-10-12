@@ -1,3 +1,6 @@
+// setup environment variables, looks for .env file and loads the env variables
+require('dotenv').config()
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -5,7 +8,7 @@ const mongoose = require('mongoose')
 
 // connect config and models files
 const {PORT, DATABASE_URL} = require('./config')
-const {BlogPost} = require('./models')
+const {Post} = require('./models')
 
 // use express for app
 const app = express()
@@ -20,7 +23,7 @@ mongoose.Promise = global.Promise
 // GET requests to /posts
 // Return all posts apiRepr json
 app.get('/posts', (req, res) => {
-  BlogPost
+  Post
     .find()
     // for each post return the apiRepr json
     .then(posts => {
@@ -37,7 +40,7 @@ app.get('/posts', (req, res) => {
 // GET requests to /posts/:id
 // Return the post apiRepr json
 app.get('/posts/:id', (req, res) => {
-  BlogPost
+  Post
     .findById(req.params.id)
     // for the post call the `.apiRepr` instance method in models.js
     .then(post => res.json(post.apiRepr()))
@@ -61,7 +64,7 @@ app.post('/posts', (req, res) => {
     }
   })
 
-  BlogPost
+  Post
     .create({
       title: req.body.title,
       content: req.body.content,
@@ -96,7 +99,7 @@ app.put('/posts/:id', (req, res) => {
     }
   })
 
-  BlogPost
+  Post
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
     .findByIdAndUpdate(req.params.id, {$set: toUpdate})
     .then(post => res.status(204).end())
@@ -109,7 +112,7 @@ app.put('/posts/:id', (req, res) => {
 // DELETE request to /posts/:id
 // Delete post with provided id
 app.delete('/posts/:id', (req, res) => {
-  BlogPost
+  Post
     .findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())
     .catch(err => {
